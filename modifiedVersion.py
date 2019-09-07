@@ -1,5 +1,9 @@
 import os
-os.chdir("C:\\Users\\jeong\\Documents\\Python Scripts\\neural-networks-and-deep-learning\\python3Version\\DeepLearningPython35")
+import datetime as date
+
+dirCin="E:\\Users\\amft\\Documents\\DeepLearningPython35"
+dirHome = "C:\\Users\\jeong\\Documents\\Python Scripts\\neural-networks-and-deep-learning\\python3Version\\DeepLearningPython35"
+os.chdir(dirCin)
 
 # %load mnist_loader.py
 """
@@ -82,40 +86,83 @@ def vectorized_result(j):
 
 import network
 
-mini_batch_size = 10
-
-t_data, validation_data, t_data = load_data_wrapper()
-out_data = list(t_data)
-topology = [784,300,30,10]
-net = network.Network(topology)
-epochs=60
-eta=0.1
-net.SGD(training_data=out_data, epochs=epochs, mini_batch_size=mini_batch_size, eta=eta, test_data=validation_data)
-
-
-#%% 
-t_data, validation_data, t_data = load_data_wrapper()
-final_test_data = list(t_data)
-accuracy = np.zeros((11,1))
-result = net.evaluate(t_data)
-#for x in final_test_data:
-#    result = net.evaluate()
+totalResult = []
+hidden_layer_maxsize = 9
+for i in range(0, hidden_layer_maxsize):
+    mini_batch_size = 10
+    t_data, validation_data, t_data = load_data_wrapper()
+    out_data = list(t_data)
+    topology = [784]
+    for j in range(0,i):
+        topology.append(50)
+    topology.append(10)
+    net = network.Network(topology)
+    epochs=40
+    eta=0.05
+    print("inicio do treinamento")
+    startTime = date.datetime.now()
+    net.SGD(training_data=out_data, epochs=epochs, mini_batch_size=mini_batch_size, eta=eta, test_data=validation_data)
+    endTime = date.datetime.now()
+    print("fim do treinamento")
+    print("tempo total de treinamento"+str(endTime-startTime))
     
+    
+    t_data, validation_data, t_data = load_data_wrapper()
+    final_test_data = list(t_data)
+    accuracy = np.zeros((11,1))
+    hits = np.zeros((11,1))
+    total = np.zeros((11,1))
+    n_test = len(final_test_data)
+    #result = net.evaluate(t_data)
+    test_results = [(np.argmax(net.feedforward(x)), y)
+                            for (x, y) in final_test_data]
+    
+    
+    for (x, y) in test_results:
+        total[y] = total[y] +1
+        total[10] = total[10] +1
+        if (int(x == y)):
+            hits[y] = hits[y] + 1
+            hits[10] = hits[10] + 1
+    for i in range(0,11):
+        accuracy[i] = hits[i]/total[i]
+            
+    if final_test_data:
+        print("result: {} / {}".format(net.evaluate(final_test_data),n_test));
+    
+    
+    resultByTest = []
 
-#print("final result: ")
-#print("mini_batch_size: "+mini_batch_size)
-#print("topology: "+topology)
-#print("epochs: "+epochs)
-#print("eta: "+eta)
-#print("general accuracy: "+accuracy[10])
-#print("accuracy 0: "+accuracy[0])
-#print("accuracy 1: "+accuracy[1])
-#print("accuracy 2: "+accuracy[2])
-#print("accuracy 3: "+accuracy[3])
-#print("accuracy 4: "+accuracy[4])
-#print("accuracy 5: "+accuracy[5])
-#print("accuracy 6: "+accuracy[6])
-#print("accuracy 7: "+accuracy[7])
-#print("accuracy 8: "+accuracy[8])
-#print("accuracy 9: "+accuracy[9])
-
+    print("final result: ")
+    print("mini_batch_size: "+str(mini_batch_size))
+    resultByTest.append(str(mini_batch_size))
+    print("topology: "+str(topology))
+    resultByTest.append(str(topology))
+    print("epochs: "+str(epochs))
+    resultByTest.append(str(epochs))
+    print("eta: "+str(eta))
+    resultByTest.append(str(eta))
+    print("general accuracy: "+str(accuracy[10]))
+    resultByTest.append(str(accuracy[10]))
+    print("accuracy 0: "+str(accuracy[0]))
+    resultByTest.append(str(accuracy[0]))
+    print("accuracy 1: "+str(accuracy[1]))
+    resultByTest.append(str(accuracy[1]))
+    print("accuracy 2: "+str(accuracy[2]))
+    resultByTest.append(str(accuracy[2]))
+    print("accuracy 3: "+str(accuracy[3]))
+    resultByTest.append(str(accuracy[3]))
+    print("accuracy 4: "+str(accuracy[4]))
+    resultByTest.append(str(accuracy[4]))
+    print("accuracy 5: "+str(accuracy[5]))
+    resultByTest.append(str(accuracy[5]))
+    print("accuracy 6: "+str(accuracy[6]))
+    resultByTest.append(str(accuracy[7]))
+    print("accuracy 7: "+str(accuracy[7]))
+    resultByTest.append(str(accuracy[7]))
+    print("accuracy 8: "+str(accuracy[8]))
+    resultByTest.append(str(accuracy[8]))
+    print("accuracy 9: "+str(accuracy[9]))
+    resultByTest.append(str(accuracy[9]))
+    totalResult.append(resultByTest)
+    
