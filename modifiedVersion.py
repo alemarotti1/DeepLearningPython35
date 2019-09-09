@@ -2,8 +2,8 @@ import os
 import datetime as date
 
 dirCin="E:\\Users\\amft\\Documents\\DeepLearningPython35"
-dirHome = "C:\\Users\\jeong\\Documents\\Python Scripts\\neural-networks-and-deep-learning\\python3Version\\DeepLearningPython35"
-os.chdir(dirCin)
+dirHome = "C:\\Users\\jeong\\Documents\\Python Scripts\\DeepLearningPython35"
+os.chdir(dirHome)
 
 # %load mnist_loader.py
 """
@@ -87,7 +87,7 @@ def vectorized_result(j):
 import network
 
 totalResult = []
-hidden_layer_maxsize = 9
+hidden_layer_maxsize = 2
 for i in range(0, hidden_layer_maxsize):
     mini_batch_size = 10
     t_data, validation_data, t_data = load_data_wrapper()
@@ -166,3 +166,11 @@ for i in range(0, hidden_layer_maxsize):
     resultByTest.append(str(accuracy[9]))
     totalResult.append(resultByTest)
     
+#%%
+
+def writeFile(list, testNumber):
+    f= open("experiment"+str(testNumber)+".txt","w+")
+    for i in list:
+        for j in i:
+            f.write(str(j)+"; ")
+        f.write("\n")
