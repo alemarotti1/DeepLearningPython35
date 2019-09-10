@@ -91,6 +91,7 @@ def write_file(list, name):
         for j in i:
             f.write(str(j)+"; ")
         f.write("\n")
+		f.close()
 import network
 
 totalResult = []
@@ -98,13 +99,13 @@ totalResult = []
 
 hidden_layer_maxsize = 17 #increasing one layer at a time
 mini_batch_high_times = 10 #increasing 2 items at a time
-epoch_high_times = 5  #increasing 5 epochs at a time
+epoch_high_times = 10  #increasing 5 epochs at a time
 eta_change_times = 20 #increasing 0.02 at a time
 
 best_accuracy = 0.0
 best_topology = []
 best_batch_size = 10
-best_epoch_size = 40
+best_epoch_size = 60
 best_eta = 0.03
 
 mini_batch_size = 30
