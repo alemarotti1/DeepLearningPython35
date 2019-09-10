@@ -3,7 +3,8 @@ import datetime as date
 
 dirCin="E:\\Users\\amft\\Documents\\DeepLearningPython35"
 dirHome = "C:\\Users\\jeong\\Documents\\Python Scripts\\DeepLearningPython35"
-os.chdir(dirHome)
+dirLuiz = ""
+os.chdir(dirLuiz)
 
 # %load mnist_loader.py
 """
@@ -95,10 +96,10 @@ import network
 totalResult = []
 
 
-hidden_layer_maxsize = 15 #increasing one layer at a time
+hidden_layer_maxsize = 17 #increasing one layer at a time
 mini_batch_high_times = 10 #increasing 2 items at a time
 epoch_high_times = 5  #increasing 5 epochs at a time
-eta_change_times = 10 #increasing 0.02 at a time
+eta_change_times = 20 #increasing 0.02 at a time
 
 best_accuracy = 0.0
 best_topology = []
@@ -106,9 +107,9 @@ best_batch_size = 10
 best_epoch_size = 40
 best_eta = 0.03
 
-mini_batch_size = 10
-epochs=40
-eta=0.03
+mini_batch_size = 30
+epochs=60
+eta=0.05
 t_data, validation_data, t_data = load_data_wrapper()
 out_data = list(t_data)
 
@@ -117,7 +118,7 @@ out_data = list(t_data)
 for i in range(0, hidden_layer_maxsize): 
     topology = [784]
     for j in range(0,i):
-        topology.append(50)
+        topology.append(70)
     topology.append(10)
     net = network.Network(topology)
     
@@ -451,4 +452,4 @@ while temp_counter != eta_change_times:
     #aumentando
     temp_counter = temp_counter + 1
     
-write_file(totalResult, "1ChangingBatch_size")
+write_file(totalResult, "4Changing_eta")
