@@ -48,11 +48,12 @@ training_data, validation_data, test_data = network3.load_data_shared()
 # chapter 6 -  rectified linear units and some l2 regularization (lmbda=0.1) => even better accuracy
 from network3 import ReLU
 import pickle
-
+#%%
 result = []
+filter_size=1
 
 mini_batch_size = 10
-epochs = 60
+epochs = 90
 learning_rate = 0.03
 regularization_factor = 0.1
 topology = [
@@ -70,35 +71,91 @@ topology = [
 
 net = Network(topology, mini_batch_size)
 result.append(net.SGD(training_data, epochs, mini_batch_size, learning_rate, validation_data, test_data, lmbda=regularization_factor))
+dump_file(result, "result_pickle"+str(filter_size))
 
 
 
-#------------------------------------------------------------------------------
+
+filter_size=1
+
 mini_batch_size = 10
-epochs = 60
+epochs = 30
 learning_rate = 0.03
 regularization_factor = 0.1
 topology = [
     ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
-                  filter_shape=(20, 1, 5, 5),
+                  filter_shape=(20, 1, filter_size, filter_size),
                   poolsize=(2, 2),
                   activation_fn=ReLU),
-    ConvPoolLayer(image_shape=(mini_batch_size, 20, 12, 12),
-                  filter_shape=(40, 20, 5, 5),
-                  poolsize=(2, 2),
-                  activation_fn=ReLU),
-    ConvPoolLayer(image_shape=(mini_batch_size, 20, 4, 4),
-                  filter_shape=(60, 20, 2, 2),
+    ConvPoolLayer(image_shape=(mini_batch_size, 20, (28-filter_size+1)/2, (28-filter_size+1)/2),
+                  filter_shape=(40, 20, filter_size, filter_size),
                   poolsize=(2, 2),
                   activation_fn=ReLU),
     FullyConnectedLayer(n_in=40*4*4, n_out=100, activation_fn=ReLU),
     SoftmaxLayer(n_in=100, n_out=10)]
 
+
 net = Network(topology, mini_batch_size)
 result.append(net.SGD(training_data, epochs, mini_batch_size, learning_rate, validation_data, test_data, lmbda=regularization_factor))
+dump_file(result, "result_pickle"+str(filter_size))
 
-dump_file(result, "result_pickle")
 
+
+
+
+
+#%%
+filter_size=5
+result=[]
+
+mini_batch_size = 10
+epochs = 30
+learning_rate = 0.03
+regularization_factor = 0.1
+topology = [
+    ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
+                  filter_shape=(20, 1, filter_size, filter_size),
+                  poolsize=(2, 2),
+                  activation_fn=ReLU),
+    ConvPoolLayer(image_shape=(mini_batch_size, 20, 12, 12),
+                  filter_shape=(40, 20, filter_size, filter_size),
+                  poolsize=(2, 2),
+                  activation_fn=ReLU),
+    FullyConnectedLayer(n_in=40*4*4, n_out=100, activation_fn=ReLU),
+    SoftmaxLayer(n_in=100, n_out=10)]
+
+
+net = Network(topology, mini_batch_size)
+result.append(net.SGD(training_data, epochs, mini_batch_size, learning_rate, validation_data, test_data, lmbda=regularization_factor))
+dump_file(result, "result_pickle"+str(filter_size))
+
+
+
+#%%
+
+filter_size=9
+result=[]
+
+mini_batch_size = 10
+epochs = 30
+learning_rate = 0.03
+regularization_factor = 0.1
+topology = [
+    ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
+                  filter_shape=(20, 1, filter_size, filter_size),
+                  poolsize=(2, 2),
+                  activation_fn=ReLU),
+    ConvPoolLayer(image_shape=(mini_batch_size, 20, 10, 10),
+                  filter_shape=(40, 20, filter_size, filter_size),
+                  poolsize=(2, 2),
+                  activation_fn=ReLU),
+    FullyConnectedLayer(n_in=40*4*4, n_out=100, activation_fn=ReLU),
+    SoftmaxLayer(n_in=100, n_out=10)]
+
+
+net = Network(topology, mini_batch_size)
+result.append(net.SGD(training_data, epochs, mini_batch_size, learning_rate, validation_data, test_data, lmbda=regularization_factor))
+dump_file(result, "result_pickle"+str(filter_size))
 
 
 

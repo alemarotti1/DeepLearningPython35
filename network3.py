@@ -47,7 +47,7 @@ def ReLU(z): return T.maximum(0.0, z)
 from theano.tensor.nnet import sigmoid
 from theano.tensor import tanh
 
-
+theano.config.exception_verbosity='high'
 #### Constants
 GPU = True
 if GPU:
@@ -154,6 +154,7 @@ class Network(object):
                 test_x[i*self.mini_batch_size: (i+1)*self.mini_batch_size]
             })
         # Do the actual training
+        final_result = []
         best_validation_accuracy = 0.0
         for epoch in range(epochs):
             for minibatch_index in range(num_training_batches):
@@ -166,6 +167,8 @@ class Network(object):
                         [validate_mb_accuracy(j) for j in range(num_validation_batches)])
                     print("Epoch {0}: validation accuracy {1:.2%}".format(
                         epoch, validation_accuracy))
+                    
+                    final_result.append(validation_accuracy)
                     if validation_accuracy >= best_validation_accuracy:
                         print("This is the best validation accuracy to date.")
                         best_validation_accuracy = validation_accuracy
@@ -175,7 +178,8 @@ class Network(object):
                                 [test_mb_accuracy(j) for j in range(num_test_batches)])
                             print('The corresponding test accuracy is {0:.2%}'.format(
                                 test_accuracy))
-                            return num_test_batches
+        
+        return final_result
         print("Finished training network.")
         print("Best validation accuracy of {0:.2%} obtained at iteration {1}".format(
             best_validation_accuracy, best_iteration))
