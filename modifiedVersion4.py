@@ -76,74 +76,74 @@ best_result=0
 #dump_file(result, "result_pickle"+str(filter_size))
 
 
-result_mini_batch = []
-best_number_mini_batch = 0
-mini_batch_size = 1
-epochs = 5
-learning_rate = 0.03
-regularization_factor = 0.1
-for j in range(0,10):
-    mini_batch_size = mini_batch_size + j
-    result = []
-    topology = [
-        ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
-                      filter_shape=(20, 1, 5, 5),
-                      poolsize=(2, 2),
-                      activation_fn=ReLU),
-        ConvPoolLayer(image_shape=(mini_batch_size, 20, 12, 12),
-                      filter_shape=(40, 20, 5, 5),
-                      poolsize=(2, 2),
-                      activation_fn=ReLU),
-        FullyConnectedLayer(n_in=40*4*4, n_out=100, activation_fn=ReLU),
-        SoftmaxLayer(n_in=100, n_out=10)]
-    
-    net = Network(topology, mini_batch_size)
-    result.append(net.SGD(training_data, epochs, mini_batch_size, learning_rate, validation_data, test_data, lmbda=regularization_factor))
-    dump_file(result, "result_pickle_mini_batch"+str(j))
-    result_mini_batch.append(0)
-    for d in range(0, len(result[0])):
-         if result[0][d]>result_mini_batch[j-1]:
-             result_mini_batch[j-1] = result[0][d]
-
-temp_batch = 1
-for temp in range(0, len(result_mini_batch)):
-    temp_batch = temp_batch + temp
-    if result_mini_batch[temp]>result_mini_batch[best_number_mini_batch]:
-        best_number_mini_batch = temp_batch
-         
-
-result_learning = []
-best_number_learning = 0
-mini_batch_size = best_number_mini_batch + 1
-epochs = 5
-learning_rate = 0.03
-regularization_factor = 0.1
-for j in range(1,15):
-    learning_rate = j*0.3
-    result = []
-    topology = [
-        ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
-                      filter_shape=(20, 1, 5, 5),
-                      poolsize=(2, 2),
-                      activation_fn=ReLU),
-        ConvPoolLayer(image_shape=(mini_batch_size, 20, 12, 12),
-                      filter_shape=(40, 20, 5, 5),
-                      poolsize=(2, 2),
-                      activation_fn=ReLU),
-        FullyConnectedLayer(n_in=40*4*4, n_out=100, activation_fn=ReLU),
-        SoftmaxLayer(n_in=100, n_out=10)]
-    
-    net = Network(topology, mini_batch_size)
-    result.append(net.SGD(training_data, epochs, mini_batch_size, learning_rate, validation_data, test_data, lmbda=regularization_factor))
-    dump_file(result, "result_pickle_learning"+str(j))
-    result_learning.append(0)
-    for d in range(0, len(result[0])):
-         if result[0][d]>result_learning[j-1]:
-             result_learning[j-1] = result[0][d]
-
-for temp in range(0, len(result_learning)):
-    if result_learning[temp]>result_learning[best_number_learning]:
-        best_number_learning = temp
+#result_mini_batch = []
+#best_number_mini_batch = 0
+#mini_batch_size = 1
+#epochs = 5
+#learning_rate = 0.03
+#regularization_factor = 0.1
+#for j in range(0,10):
+#    mini_batch_size = mini_batch_size + j
+#    result = []
+#    topology = [
+#        ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
+#                      filter_shape=(20, 1, 5, 5),
+#                      poolsize=(2, 2),
+#                      activation_fn=ReLU),
+#        ConvPoolLayer(image_shape=(mini_batch_size, 20, 12, 12),
+#                      filter_shape=(40, 20, 5, 5),
+#                      poolsize=(2, 2),
+#                      activation_fn=ReLU),
+#        FullyConnectedLayer(n_in=40*4*4, n_out=100, activation_fn=ReLU),
+#        SoftmaxLayer(n_in=100, n_out=10)]
+#    
+#    net = Network(topology, mini_batch_size)
+#    result.append(net.SGD(training_data, epochs, mini_batch_size, learning_rate, validation_data, test_data, lmbda=regularization_factor))
+#    dump_file(result, "result_pickle_mini_batch"+str(j))
+#    result_mini_batch.append(0)
+#    for d in range(0, len(result[0])):
+#         if result[0][d]>result_mini_batch[j-1]:
+#             result_mini_batch[j-1] = result[0][d]
+#
+#temp_batch = 1
+#for temp in range(0, len(result_mini_batch)):
+#    temp_batch = temp_batch + temp
+#    if result_mini_batch[temp]>result_mini_batch[best_number_mini_batch]:
+#        best_number_mini_batch = temp_batch
+#         
+#
+#result_learning = []
+#best_number_learning = 0
+#mini_batch_size = best_number_mini_batch + 1
+#epochs = 5
+#learning_rate = 0.03
+#regularization_factor = 0.1
+#for j in range(1,15):
+#    learning_rate = j*0.03
+#    result = []
+#    topology = [
+#        ConvPoolLayer(image_shape=(mini_batch_size, 1, 28, 28),
+#                      filter_shape=(20, 1, 5, 5),
+#                      poolsize=(2, 2),
+#                      activation_fn=ReLU),
+#        ConvPoolLayer(image_shape=(mini_batch_size, 20, 12, 12),
+#                      filter_shape=(40, 20, 5, 5),
+#                      poolsize=(2, 2),
+#                      activation_fn=ReLU),
+#        FullyConnectedLayer(n_in=40*4*4, n_out=100, activation_fn=ReLU),
+#        SoftmaxLayer(n_in=100, n_out=10)]
+#    
+#    net = Network(topology, mini_batch_size)
+#    result.append(net.SGD(training_data, epochs, mini_batch_size, learning_rate, validation_data, test_data, lmbda=regularization_factor))
+#    dump_file(result, "result_pickle_learning"+str(j))
+#    result_learning.append(0)
+#    for d in range(0, len(result[0])):
+#         if result[0][d]>result_learning[j-1]:
+#             result_learning[j-1] = result[0][d]
+#
+#for temp in range(0, len(result_learning)):
+#    if result_learning[temp]>result_learning[best_number_learning]:
+#        best_number_learning = temp
 
 
 
@@ -175,7 +175,7 @@ for j in range(1,15):
          if result[0][d]>result_regularization[j-1]:
              result_regularization[j-1] = result[0][d]
 
-for temp in range(0, len(result_learning)):
+for temp in range(0, len(result_regularization)):
     if result_regularization[temp]>result_regularization[best_number_regularization]:
         best_number_regularization = temp
 
